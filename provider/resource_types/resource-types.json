@@ -7,8 +7,8 @@
     "Model": "Connector"
   },
   {
-    "ResourceName": "CohereAI/Model",
-    "ListDescriber": "DescribeListByCohereAI(describer.ListModel)",
+    "ResourceName": "CohereAI/Models",
+    "ListDescriber": "DescribeListByCohereAI(describer.ListModels)",
     "GetDescriber": "DescribeSingleByCohereAI(describer.GetModel)",
     "SteampipeTable": "cohereai_models",
     "Model": "Model"

@@ -1,4 +1,6 @@
 build/
 og-describer-cohereai
 .idea
+
+.vscode/
 .vscode

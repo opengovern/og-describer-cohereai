@@ -104,7 +104,7 @@ func processDatasets(ctx context.Context, handler *CohereAIAPIHandler, cohereAiC
 }
 
 
-func GetDataset(ctx context.Context, handler *CohereAIAPIHandler, datasetID string) (models.Resource, error) {
+func GetDataset(ctx context.Context, handler *CohereAIAPIHandler, datasetID string) (*models.Resource, error) {
 	var datasetResponse model.DatasetDescription
 	baseURL := "https://api.cohere.com/v1/datasets"
 	
@@ -112,7 +112,7 @@ func GetDataset(ctx context.Context, handler *CohereAIAPIHandler, datasetID stri
 	finalURL := baseURL + "/" + datasetID
 	req, err := http.NewRequest("GET", finalURL, nil)
 	if err != nil {
-		return models.Resource{}, err
+		return &models.Resource{}, err
 	}
 	requestFunc := func(req *http.Request) (*http.Response, error) {
 		var e error
@@ -126,9 +126,9 @@ func GetDataset(ctx context.Context, handler *CohereAIAPIHandler, datasetID stri
 	}
 	err = handler.DoRequest(ctx, req, requestFunc)
 	if err != nil {
-		return models.Resource{}, err
+		return &models.Resource{}, err
 	}
-	return models.Resource{
+	return &models.Resource{
 		ID:   datasetResponse.ID,
 		Name: datasetResponse.Name,
 		Description: JSONAllFieldsMarshaller{

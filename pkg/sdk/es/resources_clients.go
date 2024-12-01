@@ -265,7 +265,7 @@ type ModelPaginator struct {
 }
 
 func (k Client) NewModelPaginator(filters []essdk.BoolFilter, limit *int64) (ModelPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "cohereai_model", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "cohereai_models", filters, limit)
 	if err != nil {
 		return ModelPaginator{}, err
 	}

@@ -39,13 +39,13 @@ func DescribeListByCohereAI(describe func(context.Context, *describer.CohereAIAP
 
 // DescribeSingleByCohereAI A wrapper to pass cohereAI authorization to describer functions
 func DescribeSingleByCohereAI(describe func(context.Context, *describer.CohereAIAPIHandler, string) (*model.Resource, error)) model.SingleResourceDescriber {
-	return func(ctx context.Context, cfg configs.IntegrationCredentials, triggerType enums.DescribeTriggerType, additionalParameters map[string]string, resourceID string) (*model.Resource, error) {
+	return func(ctx context.Context, cfg configs.IntegrationCredentials, triggerType enums.DescribeTriggerType, resourceID string, additionalParameters map[string]string) (*model.Resource, error) {
 		ctx = describer.WithTriggerType(ctx, triggerType)
 
 		var err error
 		// Check for the token
 		if cfg.APIKey == "" {
-			return nil, errors.New("token must be configured")
+			return nil, errors.New("API Key must be configured")
 		}
 
 		cohereAPIHandler := describer.NewCohereAIAPIHandler(cfg.APIKey, rate.Every(time.Minute/200), 1, 10, 5, 5*time.Minute,cfg.ClientName)

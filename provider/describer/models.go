@@ -94,7 +94,7 @@ func processModels(ctx context.Context, handler *CohereAIAPIHandler, cohereAiCha
 	}
 }
 
-func GetModel(ctx context.Context, handler *CohereAIAPIHandler, modelName string) (models.Resource, error) {
+func GetModel(ctx context.Context, handler *CohereAIAPIHandler, modelName string) (*models.Resource, error) {
 	var modelResponse model.ModelDescription
 	baseURL := "https://api.cohere.com/v1/models"
 	
@@ -102,7 +102,7 @@ func GetModel(ctx context.Context, handler *CohereAIAPIHandler, modelName string
 	finalURL := baseURL + "/" + modelName
 	req, err := http.NewRequest("GET", finalURL, nil)
 	if err != nil {
-		return models.Resource{}, err
+		return &models.Resource{}, err
 	}
 	requestFunc := func(req *http.Request) (*http.Response, error) {
 		var e error
@@ -116,7 +116,7 @@ func GetModel(ctx context.Context, handler *CohereAIAPIHandler, modelName string
 	}
 	err = handler.DoRequest(ctx, req, requestFunc)
 	if err != nil {
-		return models.Resource{}, err
+		return &models.Resource{}, err
 	}
 	value := models.Resource{
 		ID:   modelResponse.Name,
@@ -125,5 +125,5 @@ func GetModel(ctx context.Context, handler *CohereAIAPIHandler, modelName string
 			Value: modelResponse,
 		},
 	}
-	return value, nil
+	return &value, nil
 }
