@@ -654,3 +654,216 @@ func GetDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 }
 
 // ==========================  END: Dataset =============================
+
+// ==========================  START: FineTunedModel =============================
+
+type FineTunedModel struct {
+	ResourceID      string                             `json:"resource_id"`
+	PlatformID      string                             `json:"platform_id"`
+	Description     cohereai.FineTunedModelDescription `json:"description"`
+	Metadata        cohereai.Metadata                  `json:"metadata"`
+	DescribedBy     string                             `json:"described_by"`
+	ResourceType    string                             `json:"resource_type"`
+	IntegrationType string                             `json:"integration_type"`
+	IntegrationID   string                             `json:"integration_id"`
+}
+
+type FineTunedModelHit struct {
+	ID      string         `json:"_id"`
+	Score   float64        `json:"_score"`
+	Index   string         `json:"_index"`
+	Type    string         `json:"_type"`
+	Version int64          `json:"_version,omitempty"`
+	Source  FineTunedModel `json:"_source"`
+	Sort    []interface{}  `json:"sort"`
+}
+
+type FineTunedModelHits struct {
+	Total essdk.SearchTotal   `json:"total"`
+	Hits  []FineTunedModelHit `json:"hits"`
+}
+
+type FineTunedModelSearchResponse struct {
+	PitID string             `json:"pit_id"`
+	Hits  FineTunedModelHits `json:"hits"`
+}
+
+type FineTunedModelPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewFineTunedModelPaginator(filters []essdk.BoolFilter, limit *int64) (FineTunedModelPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "cohereai_finetunedmodel", filters, limit)
+	if err != nil {
+		return FineTunedModelPaginator{}, err
+	}
+
+	p := FineTunedModelPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p FineTunedModelPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p FineTunedModelPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p FineTunedModelPaginator) NextPage(ctx context.Context) ([]FineTunedModel, error) {
+	var response FineTunedModelSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []FineTunedModel
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listFineTunedModelFilters = map[string]string{
+	"creator_id":        "Description.CreatorID",
+	"default_endpoints": "Description.DefaultEndpoints",
+	"id":                "Description.ID",
+	"name":              "Description.Name",
+	"organization_id":   "Description.OrganizationID",
+	"status":            "Description.Status",
+}
+
+func ListFineTunedModel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListFineTunedModel")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListFineTunedModel NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListFineTunedModel NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListFineTunedModel GetConfigTableValueOrNil for OpenGovernanceConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListFineTunedModel GetConfigTableValueOrNil for OpenGovernanceConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListFineTunedModel GetConfigTableValueOrNil for OpenGovernanceConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewFineTunedModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFineTunedModelFilters, "cohereai", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListFineTunedModel NewFineTunedModelPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListFineTunedModel paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getFineTunedModelFilters = map[string]string{
+	"creator_id":        "Description.CreatorID",
+	"default_endpoints": "Description.DefaultEndpoints",
+	"id":                "Description.ID",
+	"name":              "Description.Name",
+	"organization_id":   "Description.OrganizationID",
+	"status":            "Description.Status",
+}
+
+func GetFineTunedModel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetFineTunedModel")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewFineTunedModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFineTunedModelFilters, "cohereai", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: FineTunedModel =============================

@@ -3,11 +3,10 @@ package cohere
 import (
 	"context"
 
+	opengovernance "github.com/opengovern/og-describer-cohereai/pkg/sdk/es"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
-	opengovernance "github.com/opengovern/og-describer-cohereai/pkg/sdk/es"
-
 )
 
 func tableCohereModels(ctx context.Context) *plugin.Table {
