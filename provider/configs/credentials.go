@@ -1,5 +1,6 @@
 package configs
 
 type IntegrationCredentials struct {
-	APIKEY string `json:"api_key"`
+	APIKey string `json:"api_key"`
+	ClientName string `json:"client_name"`
 }
