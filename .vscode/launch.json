@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch file",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "./command/main.go",
+            "args": [
+               "describer",
+               "--resourceType",
+               "CohereAI/Connectors"
+            ]
+        },
+        {
             "name": "Launch Package",
             "type": "go",
             "request": "launch",

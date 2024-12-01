@@ -37,7 +37,7 @@ func NewCohereAIAPIHandler(APIKey string, rateLimit rate.Limit, burst int, maxCo
 // DoRequest executes the openai API request with rate limiting, retries, and concurrency control.
 func (h *CohereAIAPIHandler) DoRequest(ctx context.Context, req *http.Request, requestFunc func(req *http.Request) (*http.Response, error)) error {
 	h.Semaphore <- struct{}{}
-	defer func() { <-h.Semaphore }()
+	// defer func() { <-h.Semaphore }()
 	var resp *http.Response
 	var err error
 	for attempt := 0; attempt <= h.MaxRetries; attempt++ {

@@ -1,0 +1,30 @@
+[
+  {
+    "ResourceName": "CohereAI/Connectors",
+    "ListDescriber": "DescribeListByCohereAI(describer.ListConnectors)",
+    "GetDescriber": "DescribeSingleByCohereAI(describer.GetConnector)",
+    "SteampipeTable": "cohereai_connectors",
+    "Model": "Connector"
+  },
+  {
+    "ResourceName": "CohereAI/Model",
+    "ListDescriber": "DescribeListByCohereAI(describer.ListModel)",
+    "GetDescriber": "DescribeSingleByCohereAI(describer.GetModel)",
+    "SteampipeTable": "cohereai_models",
+    "Model": "Model"
+  },
+  {
+    "ResourceName": "CohereAI/Datasets",
+    "ListDescriber": "DescribeListByCohereAI(describer.ListDatasets)",
+    "GetDescriber": "DescribeSingleByCohereAI(describer.GetDataset)",
+    "SteampipeTable": "cohereai_datasets",
+    "Model": "Dataset"
+  },
+  {
+    "ResourceName": "CohereAI/FineTunedModel",
+    "ListDescriber": "DescribeListByCohereAI(describer.ListFineTunedModels)",
+    "GetDescriber": "DescribeSingleByCohereAI(describer.GetFineTunedModel)",
+    "SteampipeTable": "cohereai_fine_tuned_models",
+    "Model": "FineTunedModel"
+  }
+]

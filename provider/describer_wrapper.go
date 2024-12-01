@@ -24,7 +24,7 @@ func DescribeListByCohereAI(describe func(context.Context, *describer.CohereAIAP
 			return nil, errors.New("token must be configured")
 		}
 
-		cohereAPIHandler := describer.NewCohereAIAPIHandler(cfg.APIKey, rate.Every(time.Minute/100), 1, 10, 5, 5*time.Minute,cfg.ClientName)
+		cohereAPIHandler := describer.NewCohereAIAPIHandler(cfg.APIKey, rate.Every(time.Minute/200), 1, 10, 5, 5*time.Minute,cfg.ClientName)
 
 		// Get values from describer
 		var values []model.Resource
