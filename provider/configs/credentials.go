@@ -1,5 +1,5 @@
 package configs
 
 type IntegrationCredentials struct {
-	// You should provide Credentials for any Provider.
+	APIKEY string `json:"api_key"`
 }
