@@ -17,7 +17,7 @@ func tableCohereModels(ctx context.Context) *plugin.Table {
 			Hydrate: opengovernance.ListModel,
 		},
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("id"),
+			KeyColumns: plugin.SingleColumn("name"),
 			Hydrate:    opengovernance.GetModel,
 		},
 		Columns: commonColumns([]*plugin.Column{

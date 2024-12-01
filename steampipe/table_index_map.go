@@ -9,6 +9,7 @@ var Map = map[string]string{
   "CohereAI/Model": "cohereai_models",
   "CohereAI/Datasets": "cohereai_datasets",
   "CohereAI/FineTunedModel": "cohereai_fine_tuned_models",
+  "CohereAI/EmbedJob": "cohereai_embed_jobs",
 }
 
 var DescriptionMap = map[string]interface{}{
@@ -16,6 +17,7 @@ var DescriptionMap = map[string]interface{}{
   "CohereAI/Model": opengovernance.Model{},
   "CohereAI/Datasets": opengovernance.Dataset{},
   "CohereAI/FineTunedModel": opengovernance.FineTunedModel{},
+  "CohereAI/EmbedJob": opengovernance.EmbedJob{},
 }
 
 var ReverseMap = map[string]string{
@@ -23,4 +25,5 @@ var ReverseMap = map[string]string{
   "cohereai_models": "CohereAI/Model",
   "cohereai_datasets": "CohereAI/Datasets",
   "cohereai_fine_tuned_models": "CohereAI/FineTunedModel",
+  "cohereai_embed_jobs": "CohereAI/EmbedJob",
 }

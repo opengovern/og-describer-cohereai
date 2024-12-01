@@ -126,3 +126,20 @@ type Hyperparameters struct {
 	TrainEpochs            int64   `json:"train_epochs"`
 	LearningRate           float64 `json:"learning_rate"`
 }
+
+
+type ListEmbedJobsResponse struct {
+	EmbedJobs []EmbedJobDescription `json:"embed_jobs"`
+}
+
+
+type EmbedJobDescription struct {
+	JobID           string    `json:"job_id"`
+	Status          string    `json:"status"`
+	CreatedAt       time.Time `json:"created_at"`
+	InputDatasetID  string    `json:"input_dataset_id"`
+	Model           string    `json:"model"`
+	Truncate        string    `json:"truncate"`
+	Name            string    `json:"name"`
+	OutputDatasetID string    `json:"output_dataset_id"`
+}

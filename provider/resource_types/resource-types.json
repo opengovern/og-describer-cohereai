@@ -26,5 +26,12 @@
     "GetDescriber": "DescribeSingleByCohereAI(describer.GetFineTunedModel)",
     "SteampipeTable": "cohereai_fine_tuned_models",
     "Model": "FineTunedModel"
+  },
+  {
+    "ResourceName":"CohereAI/EmbedJob",
+    "ListDescriber": "DescribeListByCohereAI(describer.ListEmbedJobs)",
+    "GetDescriber": "DescribeSingleByCohereAI(describer.GetEmbedJob)",
+    "SteampipeTable": "cohereai_embed_jobs",
+    "Model": "EmbedJob"
   }
 ]

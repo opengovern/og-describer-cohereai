@@ -867,3 +867,218 @@ func GetFineTunedModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 // ==========================  END: FineTunedModel =============================
+
+// ==========================  START: EmbedJob =============================
+
+type EmbedJob struct {
+	ResourceID      string                       `json:"resource_id"`
+	PlatformID      string                       `json:"platform_id"`
+	Description     cohereai.EmbedJobDescription `json:"description"`
+	Metadata        cohereai.Metadata            `json:"metadata"`
+	DescribedBy     string                       `json:"described_by"`
+	ResourceType    string                       `json:"resource_type"`
+	IntegrationType string                       `json:"integration_type"`
+	IntegrationID   string                       `json:"integration_id"`
+}
+
+type EmbedJobHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  EmbedJob      `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type EmbedJobHits struct {
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []EmbedJobHit     `json:"hits"`
+}
+
+type EmbedJobSearchResponse struct {
+	PitID string       `json:"pit_id"`
+	Hits  EmbedJobHits `json:"hits"`
+}
+
+type EmbedJobPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewEmbedJobPaginator(filters []essdk.BoolFilter, limit *int64) (EmbedJobPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "cohereai_embedjob", filters, limit)
+	if err != nil {
+		return EmbedJobPaginator{}, err
+	}
+
+	p := EmbedJobPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p EmbedJobPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p EmbedJobPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p EmbedJobPaginator) NextPage(ctx context.Context) ([]EmbedJob, error) {
+	var response EmbedJobSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []EmbedJob
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listEmbedJobFilters = map[string]string{
+	"input_dataset_id":  "Description.input_dataset_id",
+	"job_id":            "Description.job_id",
+	"model":             "Description.model",
+	"name":              "Description.name",
+	"output_dataset_id": "Description.output_dataset_id",
+	"status":            "Description.status",
+	"truncate":          "Description.truncate",
+}
+
+func ListEmbedJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListEmbedJob")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListEmbedJob NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListEmbedJob NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListEmbedJob GetConfigTableValueOrNil for OpenGovernanceConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListEmbedJob GetConfigTableValueOrNil for OpenGovernanceConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListEmbedJob GetConfigTableValueOrNil for OpenGovernanceConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewEmbedJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEmbedJobFilters, "cohereai", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListEmbedJob NewEmbedJobPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListEmbedJob paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getEmbedJobFilters = map[string]string{
+	"input_dataset_id":  "Description.input_dataset_id",
+	"job_id":            "Description.job_id",
+	"model":             "Description.model",
+	"name":              "Description.name",
+	"output_dataset_id": "Description.output_dataset_id",
+	"status":            "Description.status",
+	"truncate":          "Description.truncate",
+}
+
+func GetEmbedJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetEmbedJob")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewEmbedJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEmbedJobFilters, "cohereai", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: EmbedJob =============================
