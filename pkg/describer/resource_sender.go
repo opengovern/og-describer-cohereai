@@ -6,7 +6,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/opengovern/og-describer-template/provider/configs"
+	"io"
+	"net/http"
+	"strings"
+	"time"
+
+	"github.com/opengovern/og-describer-cohereai/provider/configs"
 	"github.com/opengovern/og-util/pkg/es"
 	"github.com/opengovern/og-util/proto/src/golang"
 	"go.uber.org/zap"
@@ -17,10 +22,6 @@ import (
 	"google.golang.org/grpc/credentials/oauth"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/types/known/anypb"
-	"io"
-	"net/http"
-	"strings"
-	"time"
 )
 
 const (

@@ -5,9 +5,10 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/opengovern/og-describer-template/provider/configs"
 	"os"
 	"strings"
+
+	"github.com/opengovern/og-describer-cohereai/provider/configs"
 )
 
 // Define the ResourceType struct with Labels and Annotations

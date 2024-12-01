@@ -3,21 +3,22 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
+	"time"
+
 	"github.com/google/uuid"
-	"github.com/opengovern/og-describer-template/pkg/describer"
-	model "github.com/opengovern/og-describer-template/pkg/sdk/models"
-	"github.com/opengovern/og-describer-template/provider"
-	"github.com/opengovern/og-describer-template/provider/configs"
-	"github.com/opengovern/og-describer-template/steampipe"
+	"github.com/opengovern/og-describer-cohereai/pkg/describer"
+	model "github.com/opengovern/og-describer-cohereai/pkg/sdk/models"
+	"github.com/opengovern/og-describer-cohereai/provider"
+	"github.com/opengovern/og-describer-cohereai/provider/configs"
+	"github.com/opengovern/og-describer-cohereai/steampipe"
 	"github.com/opengovern/og-util/pkg/describe"
 	"github.com/opengovern/og-util/pkg/es"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 	"golang.org/x/net/context"
-	"os"
-	"strconv"
-	"strings"
-	"time"
 )
 
 var (

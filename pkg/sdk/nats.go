@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/opengovern/og-describer-template/pkg/describer"
-	"github.com/opengovern/og-describer-template/provider/configs"
 	"os"
 	"runtime"
 	"time"
+
+	"github.com/opengovern/og-describer-cohereai/pkg/describer"
+	"github.com/opengovern/og-describer-cohereai/provider/configs"
 
 	"github.com/nats-io/nats.go/jetstream"
 

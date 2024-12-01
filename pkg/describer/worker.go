@@ -4,17 +4,18 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	strconv "strconv"
+	"strings"
+
 	"github.com/go-errors/errors"
-	model "github.com/opengovern/og-describer-template/pkg/sdk/models"
-	"github.com/opengovern/og-describer-template/provider"
-	"github.com/opengovern/og-describer-template/provider/configs"
-	"github.com/opengovern/og-describer-template/steampipe"
+	model "github.com/opengovern/og-describer-cohereai/pkg/sdk/models"
+	"github.com/opengovern/og-describer-cohereai/provider"
+	"github.com/opengovern/og-describer-cohereai/provider/configs"
+	"github.com/opengovern/og-describer-cohereai/steampipe"
 	describe2 "github.com/opengovern/og-util/pkg/describe"
 	"github.com/opengovern/og-util/pkg/es"
 	"github.com/opengovern/og-util/pkg/vault"
 	"go.uber.org/zap"
-	strconv "strconv"
-	"strings"
 )
 
 type Error struct {

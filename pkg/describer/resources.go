@@ -5,14 +5,15 @@ package describer
 import (
 	"context"
 	"fmt"
-	model "github.com/opengovern/og-describer-template/pkg/sdk/models"
-	"github.com/opengovern/og-describer-template/provider"
-	"github.com/opengovern/og-describer-template/provider/configs"
-	"github.com/opengovern/og-describer-template/provider/describer"
-	"github.com/opengovern/og-util/pkg/describe/enums"
-	"go.uber.org/zap"
 	"sort"
 	"strings"
+
+	model "github.com/opengovern/og-describer-cohereai/pkg/sdk/models"
+	"github.com/opengovern/og-describer-cohereai/provider"
+	"github.com/opengovern/og-describer-cohereai/provider/configs"
+	"github.com/opengovern/og-describer-cohereai/provider/describer"
+	"github.com/opengovern/og-util/pkg/describe/enums"
+	"go.uber.org/zap"
 )
 
 func ListResourceTypes() []string {

@@ -59,7 +59,7 @@ jobs:
       - name: Upload Local Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: local-og-describer-cohereai
+          name: local-og-describer-cohereaiai
           path: ./local.tar
           retention-days: 1
       - name: Set Latest Tag Output
@@ -119,7 +119,7 @@ jobs:
       - name: Download Local Describer Artifact
         uses: actions/download-artifact@v3
         with:
-          name: local-og-describer-cohereai
+          name: local-og-describer-cohereaiai
           path: .
       - name: Unpack Local Describer Artifact
         run: |
@@ -135,7 +135,7 @@ jobs:
         with:
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/og-describer-cohereai:local-latest
-            ghcr.io/${{ github.repository_owner }}/og-describer-cohereai:local-${{ needs.build.outputs.latest_tag }}
+            ghcr.io/${{ github.repository_owner }}/og-describer-cohereaiai:local-latest
+            ghcr.io/${{ github.repository_owner }}/og-describer-cohereaiai:local-${{ needs.build.outputs.latest_tag }}
           file: DockerFileLocal
           context: .

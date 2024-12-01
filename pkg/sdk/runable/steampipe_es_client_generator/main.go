@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/opengovern/og-describer-template/provider/configs"
 	"go/ast"
 	"go/format"
 	"go/parser"
@@ -14,6 +13,8 @@ import (
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/opengovern/og-describer-cohereai/provider/configs"
 )
 
 var (
@@ -23,7 +24,7 @@ var (
 	pluginPath        = flag.String("pluginPath", "", "Location of the steampipe plugin")
 )
 
-const PluginPath = "" // TODO: give the steampipe plugin path
+const PluginPath = "../../../../steampipe-plugin-cohereai/cohereai" 
 
 type IntegrationType struct {
 	Name            string
