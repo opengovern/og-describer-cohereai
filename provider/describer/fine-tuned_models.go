@@ -99,4 +99,34 @@ func processFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, co
 }
 
 
-
+func GetFineTunedModel(ctx context.Context, handler *CohereAIAPIHandler, fineTunedModelID string) (*models.Resource, error) {
+	var fineTunedModelResponse model.FineTunedModelDescription
+	var fineTunedModel model.FineTunedModelDescription
+	baseURL := "https://api.cohere.com/v1/finetuning/finetuned-models"
+	finalURL := baseURL + "/" + fineTunedModelID
+	req, err := http.NewRequest("GET", finalURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	requestFunc := func(req *http.Request) (*http.Response, error) {
+		var e error
+		resp, e := handler.Client.Do(req)
+		if e = json.NewDecoder(resp.Body).Decode(&fineTunedModelResponse); e != nil {
+			return nil, e
+		}
+		fineTunedModel = fineTunedModelResponse
+		return resp, e
+	}
+	err = handler.DoRequest(ctx, req, requestFunc)
+	if err != nil {
+		return nil, err
+	}
+	value := models.Resource{
+		ID:   fineTunedModel.ID,
+		Name: fineTunedModel.Name,
+		Description: JSONAllFieldsMarshaller{
+			Value: fineTunedModel,
+		},
+	}
+	return &value, nil
+}
