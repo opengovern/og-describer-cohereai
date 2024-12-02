@@ -19,13 +19,12 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			ShouldIgnoreError: isNotFoundError,
 		},
 		TableMap: map[string]*plugin.Table{
-			"cohereai_classify":        tableCohereClassification(ctx),
-			"cohereai_detect_language": tableCohereDetectLanguage(ctx),
-			"cohereai_detokenize":      tableCohereDetokenize(ctx),
-			"cohereai_embed":           tableCohereEmbed(ctx),
-			"cohereai_generation":      tableCohereGeneration(ctx),
-			"cohereai_summarize":       tableCohereSummarize(ctx),
-			"cohereai_tokenize":        tableCohereTokenize(ctx),
+			"cohereai_connectors": tableCohereConnectors(ctx),
+			"cohereai_models":     tableCohereModels(ctx),
+			"cohereai_datasets":   tableCohereDatasets(ctx),
+			"cohereai_fine_tuned_models": tableCohereFineTunedModels(ctx),
+			"cohereai_embed_jobs": tableCohereEmbedJobs(ctx),
+			
 		},
 	}
 	for key, table := range p.TableMap {
