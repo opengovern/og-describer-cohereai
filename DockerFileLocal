@@ -3,6 +3,6 @@ RUN apk --no-cache add ca-certificates
 
 FROM scratch
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY ./local/og-describer ./
-ENTRYPOINT [ "./og-describer" ]
-CMD [ "./og-describer" ]
+COPY ./local/og-describer-cohereai ./
+ENTRYPOINT [ "./og-describer-cohereai" ]
+CMD [ "./og-describer-cohereai" ]
