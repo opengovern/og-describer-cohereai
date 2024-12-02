@@ -38,10 +38,12 @@ jobs:
           git config --global url.https://$GH_ACCESS_TOKEN@github.com/opengovern.insteadOf https://github.com/opengovern
       - name: Build Cohere Ai Plugin App
         working-directory: ./steampipe-plugin-cohereai
+        
         run: make build
       - name: Pack Cohere Ai Plugin Build
         working-directory: ./steampipe-plugin-cohereai
         run: |
+          ls
           tar -cvf build.tar build
       - name: Upload Cohere Ai Plugin Artifact
         uses: actions/upload-artifact@v3
