@@ -121,7 +121,7 @@ jobs:
       - name: Download Local Describer Artifact
         uses: actions/download-artifact@v3
         with:
-          name: local-og-describer-cohereaiai
+          name: local-og-describer-cohereai
           path: .
       - name: Unpack Local Describer Artifact
         run: |
@@ -137,7 +137,7 @@ jobs:
         with:
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/og-describer-cohereaiai:local-latest
-            ghcr.io/${{ github.repository_owner }}/og-describer-cohereaiai:local-${{ needs.build.outputs.latest_tag }}
+            ghcr.io/${{ github.repository_owner }}/og-describer-cohereai:local-latest
+            ghcr.io/${{ github.repository_owner }}/og-describer-cohereai:local-${{ needs.build.outputs.latest_tag }}
           file: DockerFileLocal
           context: .
