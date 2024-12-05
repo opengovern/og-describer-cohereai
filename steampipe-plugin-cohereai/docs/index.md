@@ -6,7 +6,7 @@ brand_color: "#FF7759"
 display_name: "CohereAI"
 short_name: "cohereai"
 description: "Steampipe plugin to query generations, classifications and more from CohereAI."
-og_description: "Query CohereAI with SQL! Open source CLI. No DB required."
+platform_description: "Query CohereAI with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/Mr-Destructive/cohereai-social-graphic.png"
 ---
 
