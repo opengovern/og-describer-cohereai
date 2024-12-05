@@ -12,7 +12,7 @@ require (
 	github.com/hashicorp/go-hclog v1.6.3
 	github.com/mr-destructive/steampipe-plugin-cohereai v0.0.3
 	github.com/nats-io/nats.go v1.36.0
-	github.com/opengovern/og-util v1.1.5
+	github.com/opengovern/og-util v1.1.9
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.10.4
 	go.uber.org/zap v1.27.0
