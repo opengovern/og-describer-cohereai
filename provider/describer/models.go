@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 	"sync"
@@ -40,7 +41,10 @@ func processModels(ctx context.Context, handler *CohereAIAPIHandler, cohereAiCha
 	var models_arr []model.ModelDescription
 	var resp *http.Response
 	baseURL := "https://api.cohere.com/v1/models"
-	
+	req,err1 := http.NewRequest("GET", baseURL, nil)
+	if(err1 != nil){
+		return 
+	}
 	requestFunc := func(req *http.Request) (*http.Response, error) {
 		var e error
 		pageToken := ""
@@ -54,6 +58,11 @@ func processModels(ctx context.Context, handler *CohereAIAPIHandler, cohereAiCha
 		
 		finalURL := baseURL + "?" + params.Encode()
 		req, err := http.NewRequest("GET", finalURL, nil)
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", handler.APIKey))
+		if handler.ClientName != "" {
+			req.Header.Set("X-Client-Name", handler.ClientName)
+		}
 		if err != nil {
 			return  nil,e
 		}
@@ -74,7 +83,7 @@ func processModels(ctx context.Context, handler *CohereAIAPIHandler, cohereAiCha
 	return resp, e
 	}
 
-	err := handler.DoRequest(ctx,  &http.Request{}, requestFunc)
+	err := handler.DoRequest(ctx,  req, requestFunc)
 	if err != nil {
 		return
 	}

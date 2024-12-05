@@ -1,7 +1,10 @@
 package describer
+
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+
 	// "fmt"
 
 	// "fmt"
@@ -44,7 +47,10 @@ func processFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, co
 	var fineTunedModels []model.FineTunedModelDescription
 	var resp *http.Response
 	baseURL := "https://api.cohere.com/v1/finetuning/finetuned-models"
-	
+	req,err1 := http.NewRequest("GET", baseURL, nil)
+	if(err1 != nil){
+		return 
+	}
 	requestFunc := func(req *http.Request) (*http.Response, error) {
 		var e error
 		pageToken := ""
@@ -58,6 +64,11 @@ func processFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, co
 		
 		finalURL := baseURL + "?" + params.Encode()
 		req, err := http.NewRequest("GET", finalURL, nil)
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", handler.APIKey))
+		if handler.ClientName != "" {
+			req.Header.Set("X-Client-Name", handler.ClientName)
+		}
 		if err != nil {
 			return  nil,e
 		}
@@ -78,7 +89,7 @@ func processFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, co
 	return resp, e
 	}
 
-	err := handler.DoRequest(ctx,  &http.Request{}, requestFunc)
+	err := handler.DoRequest(ctx,  req, requestFunc)
 	if err != nil {
 		return
 	}
