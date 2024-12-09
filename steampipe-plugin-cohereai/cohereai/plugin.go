@@ -2,6 +2,7 @@ package cohere
 
 import (
 	"context"
+	essdk "github.com/opengovern/og-util/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -11,20 +12,16 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 	p := &plugin.Plugin{
 		Name: "steampipe-plugin-cohereai",
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
-			NewInstance: ConfigInstance,
-			Schema:      ConfigSchema,
+			NewInstance: essdk.ConfigInstance,
+			Schema:      essdk.ConfigSchema(),
 		},
-		DefaultTransform: transform.FromGo().NullIfZero(),
-		DefaultGetConfig: &plugin.GetConfig{
-			ShouldIgnoreError: isNotFoundError,
-		},
+		DefaultTransform: transform.FromCamel(),
 		TableMap: map[string]*plugin.Table{
-			"cohereai_connectors": tableCohereConnectors(ctx),
-			"cohereai_models":     tableCohereModels(ctx),
-			"cohereai_datasets":   tableCohereDatasets(ctx),
+			"cohereai_connectors":        tableCohereConnectors(ctx),
+			"cohereai_models":            tableCohereModels(ctx),
+			"cohereai_datasets":          tableCohereDatasets(ctx),
 			"cohereai_fine_tuned_models": tableCohereFineTunedModels(ctx),
-			"cohereai_embed_jobs": tableCohereEmbedJobs(ctx),
-			
+			"cohereai_embed_jobs":        tableCohereEmbedJobs(ctx),
 		},
 	}
 	for key, table := range p.TableMap {

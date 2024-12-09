@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/mr-destructive/steampipe-plugin-cohereai/cohereai"
+	"github.com/opengovern/og-describer-cohereai/steampipe-plugin-cohereai/cohereai"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
