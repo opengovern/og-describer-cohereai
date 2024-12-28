@@ -13,11 +13,9 @@ import (
 	"github.com/opengovern/og-describer-cohereai/provider/model"
 )
 
-
 func ListEmbedJobs(ctx context.Context, handler *CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
 	var wg sync.WaitGroup
 	cohereaiChan := make(chan models.Resource)
-	
 
 	go func() {
 		processEmbedJobs(ctx, handler, cohereaiChan, &wg)
@@ -43,26 +41,25 @@ func processEmbedJobs(ctx context.Context, handler *CohereAIAPIHandler, cohereAi
 	var resp *http.Response
 	baseURL := "https://api.cohere.com/v1/embed-jobs"
 
-	
-	finalURL := baseURL 
+	finalURL := baseURL
 	req, err := http.NewRequest("GET", finalURL, nil)
 	if err != nil {
-		return 
+		return
 	}
 	requestFunc := func(req *http.Request) (*http.Response, error) {
 		var e error
-		
+
 		resp, e = handler.Client.Do(req)
 		// fmt.Printf(json.NewDecoder(resp.Body))
 		if e = json.NewDecoder(resp.Body).Decode(&embedJobResponse); e != nil {
 			return nil, e
 		}
 		embedJobs = append(embedJobs, embedJobResponse.EmbedJobs...)
-		
+
 		return resp, nil
 	}
 
-	err = handler.DoRequest(ctx,  req, requestFunc)
+	err = handler.DoRequest(ctx, req, requestFunc)
 	if err != nil {
 		return
 	}
@@ -71,19 +68,15 @@ func processEmbedJobs(ctx context.Context, handler *CohereAIAPIHandler, cohereAi
 		go func(mod model.EmbedJobDescription) {
 			defer wg.Done()
 			value := models.Resource{
-				ID:   mod.JobID,
-				Name: mod.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: mod,
-				},
+				ID:          mod.JobID,
+				Name:        mod.Name,
+				Description: mod,
 			}
 			cohereAiChan <- value
 		}(mod)
 	}
-	
+
 }
-
-
 
 func GetEmbedJob(ctx context.Context, handler *CohereAIAPIHandler, embedJobID string) (*models.Resource, error) {
 	var embedJobResponse model.EmbedJobDescription
@@ -108,11 +101,9 @@ func GetEmbedJob(ctx context.Context, handler *CohereAIAPIHandler, embedJobID st
 		return nil, err
 	}
 	value := &models.Resource{
-		ID:   embedJob.JobID,
-		Name: embedJob.Name,
-		Description: JSONAllFieldsMarshaller{
-			Value: embedJob,
-		},
+		ID:          embedJob.JobID,
+		Name:        embedJob.Name,
+		Description: embedJob,
 	}
 	return value, nil
 }

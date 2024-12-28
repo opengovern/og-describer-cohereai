@@ -16,11 +16,9 @@ import (
 	"github.com/opengovern/og-describer-cohereai/provider/model"
 )
 
-
 func ListFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
 	var wg sync.WaitGroup
 	cohereaiChan := make(chan models.Resource)
-	
 
 	go func() {
 		processFineTunedModels(ctx, handler, cohereaiChan, &wg)
@@ -47,49 +45,48 @@ func processFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, co
 	var fineTunedModels []model.FineTunedModelDescription
 	var resp *http.Response
 	baseURL := "https://api.cohere.com/v1/finetuning/finetuned-models"
-	req,err1 := http.NewRequest("GET", baseURL, nil)
-	if(err1 != nil){
-		return 
+	req, err1 := http.NewRequest("GET", baseURL, nil)
+	if err1 != nil {
+		return
 	}
 	requestFunc := func(req *http.Request) (*http.Response, error) {
 		var e error
 		pageToken := ""
 		for {
-		params := url.Values{}
-		params.Set("page_size", "1000")
-		if(pageToken != ""){
-			params.Set("pageToken", pageToken)
-		}
+			params := url.Values{}
+			params.Set("page_size", "1000")
+			if pageToken != "" {
+				params.Set("pageToken", pageToken)
+			}
 
-		
-		finalURL := baseURL + "?" + params.Encode()
-		req, err := http.NewRequest("GET", finalURL, nil)
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", handler.APIKey))
-		if handler.ClientName != "" {
-			req.Header.Set("X-Client-Name", handler.ClientName)
-		}
-		if err != nil {
-			return  nil,e
-		}
-		
-		resp, e = handler.Client.Do(req)
-		// fmt.Printf(json.NewDecoder(resp.Body))
-		if e = json.NewDecoder(resp.Body).Decode(&fineTunedModelResponse); e != nil {
-			return nil, e
-		}
-		fineTunedModels = append(fineTunedModels, fineTunedModelResponse.FinetunedModels...)
-		
-		if(fineTunedModelResponse.NextPageToken == ""){
-			break
-		}
-		pageToken = fineTunedModelResponse.NextPageToken
+			finalURL := baseURL + "?" + params.Encode()
+			req, err := http.NewRequest("GET", finalURL, nil)
+			req.Header.Set("Content-Type", "application/json")
+			req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", handler.APIKey))
+			if handler.ClientName != "" {
+				req.Header.Set("X-Client-Name", handler.ClientName)
+			}
+			if err != nil {
+				return nil, e
+			}
 
+			resp, e = handler.Client.Do(req)
+			// fmt.Printf(json.NewDecoder(resp.Body))
+			if e = json.NewDecoder(resp.Body).Decode(&fineTunedModelResponse); e != nil {
+				return nil, e
+			}
+			fineTunedModels = append(fineTunedModels, fineTunedModelResponse.FinetunedModels...)
+
+			if fineTunedModelResponse.NextPageToken == "" {
+				break
+			}
+			pageToken = fineTunedModelResponse.NextPageToken
+
+		}
+		return resp, e
 	}
-	return resp, e
-	}
 
-	err := handler.DoRequest(ctx,  req, requestFunc)
+	err := handler.DoRequest(ctx, req, requestFunc)
 	if err != nil {
 		return
 	}
@@ -98,17 +95,14 @@ func processFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, co
 		go func(mod model.FineTunedModelDescription) {
 			defer wg.Done()
 			value := models.Resource{
-				ID:   mod.ID,
-				Name: mod.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: mod,
-				},
+				ID:          mod.ID,
+				Name:        mod.Name,
+				Description: mod,
 			}
 			cohereAiChan <- value
 		}(mod)
 	}
 }
-
 
 func GetFineTunedModel(ctx context.Context, handler *CohereAIAPIHandler, fineTunedModelID string) (*models.Resource, error) {
 	var fineTunedModelResponse model.FineTunedModelDescription
@@ -133,11 +127,9 @@ func GetFineTunedModel(ctx context.Context, handler *CohereAIAPIHandler, fineTun
 		return nil, err
 	}
 	value := models.Resource{
-		ID:   fineTunedModel.ID,
-		Name: fineTunedModel.Name,
-		Description: JSONAllFieldsMarshaller{
-			Value: fineTunedModel,
-		},
+		ID:          fineTunedModel.ID,
+		Name:        fineTunedModel.Name,
+		Description: fineTunedModel,
 	}
 	return &value, nil
 }
