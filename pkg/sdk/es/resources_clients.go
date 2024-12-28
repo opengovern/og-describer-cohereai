@@ -19,7 +19,7 @@ type Client struct {
 type Connector struct {
 	ResourceID      string                        `json:"resource_id"`
 	PlatformID      string                        `json:"platform_id"`
-	Description     cohereai.ConnectorDescription `json:"description"`
+	Description     cohereai.ConnectorDescription `json:"Description"`
 	Metadata        cohereai.Metadata             `json:"metadata"`
 	DescribedBy     string                        `json:"described_by"`
 	ResourceType    string                        `json:"resource_type"`
@@ -121,7 +121,7 @@ func ListConnector(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		plugin.Logger(ctx).Error("ListConnector NewSelfClientCached", "error", err)
 		return nil, err
 	}
-	integrationID, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
+	integrationId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
 	if err != nil {
 		plugin.Logger(ctx).Error("ListConnector GetConfigTableValueOrNil for OpenGovernanceConfigKeyIntegrationID", "error", err)
 		return nil, err
@@ -137,7 +137,7 @@ func ListConnector(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		return nil, err
 	}
 
-	paginator, err := k.NewConnectorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConnectorFilters, integrationID, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	paginator, err := k.NewConnectorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConnectorFilters, integrationId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		plugin.Logger(ctx).Error("ListConnector NewConnectorPaginator", "error", err)
 		return nil, err
@@ -187,7 +187,7 @@ func GetConnector(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
-	integrationID, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
+	integrationId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
 	if err != nil {
 		return nil, err
 	}
@@ -201,7 +201,7 @@ func GetConnector(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 
 	limit := int64(1)
-	paginator, err := k.NewConnectorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConnectorFilters, integrationID, encodedResourceCollectionFilters, clientType), &limit)
+	paginator, err := k.NewConnectorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConnectorFilters, integrationId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -232,7 +232,7 @@ func GetConnector(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 type Model struct {
 	ResourceID      string                    `json:"resource_id"`
 	PlatformID      string                    `json:"platform_id"`
-	Description     cohereai.ModelDescription `json:"description"`
+	Description     cohereai.ModelDescription `json:"Description"`
 	Metadata        cohereai.Metadata         `json:"metadata"`
 	DescribedBy     string                    `json:"described_by"`
 	ResourceType    string                    `json:"resource_type"`
@@ -332,7 +332,7 @@ func ListModel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		plugin.Logger(ctx).Error("ListModel NewSelfClientCached", "error", err)
 		return nil, err
 	}
-	integrationID, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
+	integrationId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
 	if err != nil {
 		plugin.Logger(ctx).Error("ListModel GetConfigTableValueOrNil for OpenGovernanceConfigKeyIntegrationID", "error", err)
 		return nil, err
@@ -348,7 +348,7 @@ func ListModel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		return nil, err
 	}
 
-	paginator, err := k.NewModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, listModelFilters, integrationID, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	paginator, err := k.NewModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, listModelFilters, integrationId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		plugin.Logger(ctx).Error("ListModel NewModelPaginator", "error", err)
 		return nil, err
@@ -396,7 +396,7 @@ func GetModel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (
 	if err != nil {
 		return nil, err
 	}
-	integrationID, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
+	integrationId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
 	if err != nil {
 		return nil, err
 	}
@@ -410,7 +410,7 @@ func GetModel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (
 	}
 
 	limit := int64(1)
-	paginator, err := k.NewModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, getModelFilters, integrationID, encodedResourceCollectionFilters, clientType), &limit)
+	paginator, err := k.NewModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, getModelFilters, integrationId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -441,7 +441,7 @@ func GetModel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (
 type Dataset struct {
 	ResourceID      string                      `json:"resource_id"`
 	PlatformID      string                      `json:"platform_id"`
-	Description     cohereai.DatasetDescription `json:"description"`
+	Description     cohereai.DatasetDescription `json:"Description"`
 	Metadata        cohereai.Metadata           `json:"metadata"`
 	DescribedBy     string                      `json:"described_by"`
 	ResourceType    string                      `json:"resource_type"`
@@ -546,7 +546,7 @@ func ListDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		plugin.Logger(ctx).Error("ListDataset NewSelfClientCached", "error", err)
 		return nil, err
 	}
-	integrationID, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
+	integrationId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
 	if err != nil {
 		plugin.Logger(ctx).Error("ListDataset GetConfigTableValueOrNil for OpenGovernanceConfigKeyIntegrationID", "error", err)
 		return nil, err
@@ -562,7 +562,7 @@ func ListDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		return nil, err
 	}
 
-	paginator, err := k.NewDatasetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDatasetFilters, integrationID, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	paginator, err := k.NewDatasetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDatasetFilters, integrationId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		plugin.Logger(ctx).Error("ListDataset NewDatasetPaginator", "error", err)
 		return nil, err
@@ -615,7 +615,7 @@ func GetDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
-	integrationID, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
+	integrationId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
 	if err != nil {
 		return nil, err
 	}
@@ -629,7 +629,7 @@ func GetDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 
 	limit := int64(1)
-	paginator, err := k.NewDatasetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDatasetFilters, integrationID, encodedResourceCollectionFilters, clientType), &limit)
+	paginator, err := k.NewDatasetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDatasetFilters, integrationId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -660,7 +660,7 @@ func GetDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 type FineTunedModel struct {
 	ResourceID      string                             `json:"resource_id"`
 	PlatformID      string                             `json:"platform_id"`
-	Description     cohereai.FineTunedModelDescription `json:"description"`
+	Description     cohereai.FineTunedModelDescription `json:"Description"`
 	Metadata        cohereai.Metadata                  `json:"metadata"`
 	DescribedBy     string                             `json:"described_by"`
 	ResourceType    string                             `json:"resource_type"`
@@ -762,7 +762,7 @@ func ListFineTunedModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		plugin.Logger(ctx).Error("ListFineTunedModel NewSelfClientCached", "error", err)
 		return nil, err
 	}
-	integrationID, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
+	integrationId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
 	if err != nil {
 		plugin.Logger(ctx).Error("ListFineTunedModel GetConfigTableValueOrNil for OpenGovernanceConfigKeyIntegrationID", "error", err)
 		return nil, err
@@ -778,7 +778,7 @@ func ListFineTunedModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		return nil, err
 	}
 
-	paginator, err := k.NewFineTunedModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFineTunedModelFilters, integrationID, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	paginator, err := k.NewFineTunedModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFineTunedModelFilters, integrationId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		plugin.Logger(ctx).Error("ListFineTunedModel NewFineTunedModelPaginator", "error", err)
 		return nil, err
@@ -828,7 +828,7 @@ func GetFineTunedModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
-	integrationID, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
+	integrationId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
 	if err != nil {
 		return nil, err
 	}
@@ -842,7 +842,7 @@ func GetFineTunedModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 
 	limit := int64(1)
-	paginator, err := k.NewFineTunedModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFineTunedModelFilters, integrationID, encodedResourceCollectionFilters, clientType), &limit)
+	paginator, err := k.NewFineTunedModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFineTunedModelFilters, integrationId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -873,7 +873,7 @@ func GetFineTunedModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 type EmbedJob struct {
 	ResourceID      string                       `json:"resource_id"`
 	PlatformID      string                       `json:"platform_id"`
-	Description     cohereai.EmbedJobDescription `json:"description"`
+	Description     cohereai.EmbedJobDescription `json:"Description"`
 	Metadata        cohereai.Metadata            `json:"metadata"`
 	DescribedBy     string                       `json:"described_by"`
 	ResourceType    string                       `json:"resource_type"`
@@ -976,7 +976,7 @@ func ListEmbedJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		plugin.Logger(ctx).Error("ListEmbedJob NewSelfClientCached", "error", err)
 		return nil, err
 	}
-	integrationID, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
+	integrationId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
 	if err != nil {
 		plugin.Logger(ctx).Error("ListEmbedJob GetConfigTableValueOrNil for OpenGovernanceConfigKeyIntegrationID", "error", err)
 		return nil, err
@@ -992,7 +992,7 @@ func ListEmbedJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		return nil, err
 	}
 
-	paginator, err := k.NewEmbedJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEmbedJobFilters, integrationID, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	paginator, err := k.NewEmbedJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEmbedJobFilters, integrationId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		plugin.Logger(ctx).Error("ListEmbedJob NewEmbedJobPaginator", "error", err)
 		return nil, err
@@ -1043,7 +1043,7 @@ func GetEmbedJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
-	integrationID, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
+	integrationId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.OpenGovernanceConfigKeyIntegrationID)
 	if err != nil {
 		return nil, err
 	}
@@ -1057,7 +1057,7 @@ func GetEmbedJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 
 	limit := int64(1)
-	paginator, err := k.NewEmbedJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEmbedJobFilters, integrationID, encodedResourceCollectionFilters, clientType), &limit)
+	paginator, err := k.NewEmbedJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEmbedJobFilters, integrationId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
