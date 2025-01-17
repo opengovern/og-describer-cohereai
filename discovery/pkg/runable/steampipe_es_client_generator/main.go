@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/opengovern/og-describer-github/global"
+	"github.com/opengovern/og-describer-cohereai/global"
 	"go/ast"
 	"go/format"
 	"go/parser"

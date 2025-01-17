@@ -10,7 +10,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/opengovern/og-describer-github/global"
+	"github.com/opengovern/og-describer-cohereai/global"
 	"github.com/opengovern/og-util/pkg/integration/interfaces"
 )
 
