@@ -3,6 +3,7 @@ package describers
 import (
 	"context"
 	"encoding/json"
+
 	// "fmt"
 
 	// "fmt"
@@ -11,10 +12,11 @@ import (
 	"sync"
 
 	"github.com/opengovern/og-describer-cohereai/discovery/pkg/models"
+	"github.com/opengovern/og-describer-cohereai/discovery/provider"
 	model "github.com/opengovern/og-describer-cohereai/discovery/provider"
 )
 
-func ListConnectors(ctx context.Context, handler *CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
+func ListConnectors(ctx context.Context, handler *provider.CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
 	var wg sync.WaitGroup
 	cohereaiChan := make(chan models.Resource)
 
@@ -36,7 +38,7 @@ func ListConnectors(ctx context.Context, handler *CohereAIAPIHandler, stream *mo
 	return values, nil
 }
 
-func processConnectors(ctx context.Context, handler *CohereAIAPIHandler, cohereAiChan chan<- models.Resource, wg *sync.WaitGroup) {
+func processConnectors(ctx context.Context, handler *provider.CohereAIAPIHandler, cohereAiChan chan<- models.Resource, wg *sync.WaitGroup) {
 	var connectorResponse model.ConnectorDescription
 	var connectors []model.Connector
 	var resp *http.Response
@@ -79,7 +81,7 @@ func processConnectors(ctx context.Context, handler *CohereAIAPIHandler, cohereA
 	}
 }
 
-func GetConnector(ctx context.Context, handler *CohereAIAPIHandler, connectorID string) (*models.Resource, error) {
+func GetConnector(ctx context.Context, handler *provider.CohereAIAPIHandler, connectorID string) (*models.Resource, error) {
 	var connectorResponse model.ConnectorDetailResponse
 	var connector model.Connector
 	baseURL := "https://api.cohere.com/v1/connectors"

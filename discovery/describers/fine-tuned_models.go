@@ -16,7 +16,7 @@ import (
 	model "github.com/opengovern/og-describer-cohereai/discovery/provider"
 )
 
-func ListFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
+func ListFineTunedModels(ctx context.Context, handler *model.CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
 	var wg sync.WaitGroup
 	cohereaiChan := make(chan models.Resource)
 
@@ -40,7 +40,7 @@ func ListFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, strea
 
 // page_size and page token
 
-func processFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, cohereAiChan chan<- models.Resource, wg *sync.WaitGroup) {
+func processFineTunedModels(ctx context.Context, handler *model.CohereAIAPIHandler, cohereAiChan chan<- models.Resource, wg *sync.WaitGroup) {
 	var fineTunedModelResponse model.ListFineTunedModelsResponse
 	var fineTunedModels []model.FineTunedModelDescription
 	var resp *http.Response
@@ -104,7 +104,7 @@ func processFineTunedModels(ctx context.Context, handler *CohereAIAPIHandler, co
 	}
 }
 
-func GetFineTunedModel(ctx context.Context, handler *CohereAIAPIHandler, fineTunedModelID string) (*models.Resource, error) {
+func GetFineTunedModel(ctx context.Context, handler *model.CohereAIAPIHandler, fineTunedModelID string) (*models.Resource, error) {
 	var fineTunedModelResponse model.FineTunedModelDescription
 	var fineTunedModel model.FineTunedModelDescription
 	baseURL := "https://api.cohere.com/v1/finetuning/finetuned-models"

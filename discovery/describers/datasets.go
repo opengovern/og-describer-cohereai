@@ -14,7 +14,7 @@ import (
 	model "github.com/opengovern/og-describer-cohereai/discovery/provider"
 )
 
-func ListDatasets(ctx context.Context, handler *CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
+func ListDatasets(ctx context.Context, handler *model.CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
 	var wg sync.WaitGroup
 	cohereaiChan := make(chan models.Resource)
 
@@ -36,7 +36,7 @@ func ListDatasets(ctx context.Context, handler *CohereAIAPIHandler, stream *mode
 	return values, nil
 }
 
-func processDatasets(ctx context.Context, handler *CohereAIAPIHandler, cohereAiChan chan<- models.Resource, wg *sync.WaitGroup) {
+func processDatasets(ctx context.Context, handler *model.CohereAIAPIHandler, cohereAiChan chan<- models.Resource, wg *sync.WaitGroup) {
 	var datasetResponse model.DatasetListResponse
 	var datasets []model.DatasetDescription
 	var resp *http.Response
@@ -96,7 +96,7 @@ func processDatasets(ctx context.Context, handler *CohereAIAPIHandler, cohereAiC
 	}
 }
 
-func GetDataset(ctx context.Context, handler *CohereAIAPIHandler, datasetID string) (*models.Resource, error) {
+func GetDataset(ctx context.Context, handler *model.CohereAIAPIHandler, datasetID string) (*models.Resource, error) {
 	var datasetResponse model.DatasetDescription
 	baseURL := "https://api.cohere.com/v1/datasets"
 

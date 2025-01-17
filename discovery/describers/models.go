@@ -12,7 +12,7 @@ import (
 	model "github.com/opengovern/og-describer-cohereai/discovery/provider"
 )
 
-func ListModels(ctx context.Context, handler *CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
+func ListModels(ctx context.Context, handler *model.CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
 	var wg sync.WaitGroup
 	cohereaiChan := make(chan models.Resource)
 	
@@ -36,7 +36,7 @@ func ListModels(ctx context.Context, handler *CohereAIAPIHandler, stream *models
 
 }
 
-func processModels(ctx context.Context, handler *CohereAIAPIHandler, cohereAiChan chan<- models.Resource, wg *sync.WaitGroup) {
+func processModels(ctx context.Context, handler *model.CohereAIAPIHandler, cohereAiChan chan<- models.Resource, wg *sync.WaitGroup) {
 	var modelResponse model.ModelListResponse
 	var models_arr []model.ModelDescription
 	var resp *http.Response
@@ -103,7 +103,7 @@ func processModels(ctx context.Context, handler *CohereAIAPIHandler, cohereAiCha
 	}
 }
 
-func GetModel(ctx context.Context, handler *CohereAIAPIHandler, modelName string) (*models.Resource, error) {
+func GetModel(ctx context.Context, handler *model.CohereAIAPIHandler, modelName string) (*models.Resource, error) {
 	var modelResponse model.ModelDescription
 	baseURL := "https://api.cohere.com/v1/models"
 	

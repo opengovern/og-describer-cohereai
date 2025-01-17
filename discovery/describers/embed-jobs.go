@@ -13,7 +13,7 @@ import (
 	model "github.com/opengovern/og-describer-cohereai/discovery/provider"
 )
 
-func ListEmbedJobs(ctx context.Context, handler *CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
+func ListEmbedJobs(ctx context.Context, handler *model.CohereAIAPIHandler, stream *models.StreamSender) ([]models.Resource, error) {
 	var wg sync.WaitGroup
 	cohereaiChan := make(chan models.Resource)
 
@@ -35,7 +35,7 @@ func ListEmbedJobs(ctx context.Context, handler *CohereAIAPIHandler, stream *mod
 	return values, nil
 }
 
-func processEmbedJobs(ctx context.Context, handler *CohereAIAPIHandler, cohereAiChan chan<- models.Resource, wg *sync.WaitGroup) {
+func processEmbedJobs(ctx context.Context, handler *model.CohereAIAPIHandler, cohereAiChan chan<- models.Resource, wg *sync.WaitGroup) {
 	var embedJobResponse model.ListEmbedJobsResponse
 	var embedJobs []model.EmbedJobDescription
 	var resp *http.Response
@@ -78,7 +78,7 @@ func processEmbedJobs(ctx context.Context, handler *CohereAIAPIHandler, cohereAi
 
 }
 
-func GetEmbedJob(ctx context.Context, handler *CohereAIAPIHandler, embedJobID string) (*models.Resource, error) {
+func GetEmbedJob(ctx context.Context, handler *model.CohereAIAPIHandler, embedJobID string) (*models.Resource, error) {
 	var embedJobResponse model.EmbedJobDescription
 	var embedJob model.EmbedJobDescription
 	baseURL := "https://api.cohere.com/v1/embed-jobs"

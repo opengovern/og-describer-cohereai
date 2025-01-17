@@ -1,36 +1,36 @@
 [
   {
     "ResourceName": "CohereAI/Connectors",
-    "ListDescriber": "DescribeListByCohereAI(describer.ListConnectors)",
-    "GetDescriber": "DescribeSingleByCohereAI(describer.GetConnector)",
+    "ListDescriber": "DescribeListByCohereAI(describers.ListConnectors)",
+    "GetDescriber": "DescribeSingleByCohereAI(describers.GetConnector)",
     "SteampipeTable": "cohereai_connectors",
     "Model": "Connector"
   },
   {
     "ResourceName": "CohereAI/Models",
-    "ListDescriber": "DescribeListByCohereAI(describer.ListModels)",
-    "GetDescriber": "DescribeSingleByCohereAI(describer.GetModel)",
+    "ListDescriber": "DescribeListByCohereAI(describers.ListModels)",
+    "GetDescriber": "DescribeSingleByCohereAI(describers.GetModel)",
     "SteampipeTable": "cohereai_models",
     "Model": "Model"
   },
   {
     "ResourceName": "CohereAI/Datasets",
-    "ListDescriber": "DescribeListByCohereAI(describer.ListDatasets)",
-    "GetDescriber": "DescribeSingleByCohereAI(describer.GetDataset)",
+    "ListDescriber": "DescribeListByCohereAI(describers.ListDatasets)",
+    "GetDescriber": "DescribeSingleByCohereAI(describers.GetDataset)",
     "SteampipeTable": "cohereai_datasets",
     "Model": "Dataset"
   },
   {
     "ResourceName": "CohereAI/FineTunedModel",
-    "ListDescriber": "DescribeListByCohereAI(describer.ListFineTunedModels)",
-    "GetDescriber": "DescribeSingleByCohereAI(describer.GetFineTunedModel)",
+    "ListDescriber": "DescribeListByCohereAI(describers.ListFineTunedModels)",
+    "GetDescriber": "DescribeSingleByCohereAI(describers.GetFineTunedModel)",
     "SteampipeTable": "cohereai_fine_tuned_models",
     "Model": "FineTunedModel"
   },
   {
     "ResourceName": "CohereAI/EmbedJob",
-    "ListDescriber": "DescribeListByCohereAI(describer.ListEmbedJobs)",
-    "GetDescriber": "DescribeSingleByCohereAI(describer.GetEmbedJob)",
+    "ListDescriber": "DescribeListByCohereAI(describers.ListEmbedJobs)",
+    "GetDescriber": "DescribeSingleByCohereAI(describers.GetEmbedJob)",
     "SteampipeTable": "cohereai_embed_jobs",
     "Model": "EmbedJob"
   }
