@@ -1,6 +1,5 @@
 build/
-og-describer-cohereai
+og-describer-*
 .idea
-
-.vscode/
+.env
 .vscode
