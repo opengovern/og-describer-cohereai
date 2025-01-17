@@ -2,8 +2,8 @@ package global
 
 import (
 	"context"
-	"github.com/opengovern/og-describer-github/cloudql/github"
-	"github.com/opengovern/og-describer-github/global/maps"
+	"github.com/opengovern/og-describer-cohereai/cloudql/cohereai"
+	"github.com/opengovern/og-describer-cohereai/global/maps"
 
 	"strings"
 
@@ -36,7 +36,7 @@ func ExtractTableName(resourceType string) string {
 }
 
 func Plugin() *plugin.Plugin {
-	return github.Plugin(buildContext())
+	return cohere.Plugin(buildContext())
 }
 
 func ExtractTagsAndNames(logger *zap.Logger, plg *plugin.Plugin, resourceType string, source interface{}) (map[string]string, string, error) {

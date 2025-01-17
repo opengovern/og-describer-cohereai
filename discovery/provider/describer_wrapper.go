@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/google/go-github/v55/github"
-	model "github.com/opengovern/og-describer-github/discovery/pkg/models"
+	model "github.com/opengovern/og-describer-cohereai/discovery/pkg/models"
 	"github.com/opengovern/og-util/pkg/describe/enums"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/net/context"
@@ -23,7 +23,7 @@ var (
 func WithTriggerType(ctx context.Context, tt enums.DescribeTriggerType) context.Context {
 	return context.WithValue(ctx, triggerTypeKey, tt)
 }
-func DescribeByGithub(describe func(context.Context, GitHubClient, string, *model.StreamSender) ([]model.Resource, error)) model.ResourceDescriber {
+func DescribeListByCohereAI(describe func(context.Context, GitHubClient, string, *model.StreamSender) ([]model.Resource, error)) model.ResourceDescriber {
 	return func(ctx context.Context, cfg model.IntegrationCredentials, triggerType enums.DescribeTriggerType, additionalParameters map[string]string, stream *model.StreamSender) ([]model.Resource, error) {
 		ctx = WithTriggerType(ctx, triggerType)
 
