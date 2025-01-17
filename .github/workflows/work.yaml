@@ -79,7 +79,7 @@ jobs:
         run: mkdir -p cohereai-plugin
       - name: Copy steampipe plugin to output directory
         working-directory: .
-        run: cp ./cloudql/build/steampipe-plugin-cohere.plugin ./cohereai-plugin/cloudql-plugin
+        run: cp ./cloudql/build/steampipe-plugin-cohereai.plugin ./cohereai-plugin/cloudql-plugin
       - name: Copy integration plugin to output directory
         working-directory: .
         run: cp ./platform/build/integration-plugin ./cohereai-plugin/
