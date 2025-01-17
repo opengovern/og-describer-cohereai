@@ -1,0 +1,37 @@
+[
+  {
+    "ResourceName": "CohereAI/Connectors",
+    "ListDescriber": "DescribeListByCohereAI(describers.ListConnectors)",
+    "GetDescriber": "DescribeSingleByCohereAI(describers.GetConnector)",
+    "SteampipeTable": "cohereai_connectors",
+    "Model": "Connector"
+  },
+  {
+    "ResourceName": "CohereAI/Models",
+    "ListDescriber": "DescribeListByCohereAI(describers.ListModels)",
+    "GetDescriber": "DescribeSingleByCohereAI(describers.GetModel)",
+    "SteampipeTable": "cohereai_models",
+    "Model": "Model"
+  },
+  {
+    "ResourceName": "CohereAI/Datasets",
+    "ListDescriber": "DescribeListByCohereAI(describers.ListDatasets)",
+    "GetDescriber": "DescribeSingleByCohereAI(describers.GetDataset)",
+    "SteampipeTable": "cohereai_datasets",
+    "Model": "Dataset"
+  },
+  {
+    "ResourceName": "CohereAI/FineTunedModel",
+    "ListDescriber": "DescribeListByCohereAI(describers.ListFineTunedModels)",
+    "GetDescriber": "DescribeSingleByCohereAI(describers.GetFineTunedModel)",
+    "SteampipeTable": "cohereai_fine_tuned_models",
+    "Model": "FineTunedModel"
+  },
+  {
+    "ResourceName": "CohereAI/EmbedJob",
+    "ListDescriber": "DescribeListByCohereAI(describers.ListEmbedJobs)",
+    "GetDescriber": "DescribeSingleByCohereAI(describers.GetEmbedJob)",
+    "SteampipeTable": "cohereai_embed_jobs",
+    "Model": "EmbedJob"
+  }
+]
