@@ -1,3 +1,3 @@
 FROM alpine:latest
 
-COPY ../build/steampipe-plugin-cohereai.plugin /steampipe-plugin-cohereai.plugin
+COPY ../build/cloudql-plugin-cohereai.plugin /cloudql-plugin-cohereai.plugin
