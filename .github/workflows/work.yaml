@@ -71,7 +71,7 @@ jobs:
           name: local-og-describer-cohereai
           path: ./discovery/local.tar
           retention-days: 1
-       - name: Add Tag to Release
+      - name: Add Tag to Release
         run: |
           echo "new_tag=${{ steps.tag_version.outputs.new_tag }}" >> "$GITHUB_OUTPUT"
           export TAG=${{ steps.tag_version.outputs.new_tag }}
