@@ -6,14 +6,12 @@ require (
 	github.com/cohere-ai/cohere-go v0.2.0
 	github.com/go-errors/errors v1.5.1
 	github.com/golang-jwt/jwt/v5 v5.2.1
-	github.com/google/go-github/v55 v55.0.0
 	github.com/google/uuid v1.6.0
 	github.com/hashicorp/go-hclog v1.6.3
 	github.com/hashicorp/go-plugin v1.6.0
 	github.com/jackc/pgtype v1.14.4
 	github.com/nats-io/nats.go v1.36.0
-	github.com/opengovern/og-util v1.11.0
-	github.com/shurcooL/githubv4 v0.0.0-20240727222349-48295856cce7
+	github.com/opengovern/og-util v1.12.0
 	github.com/spf13/cobra v1.8.1
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.10.4
 	go.uber.org/zap v1.27.0
@@ -65,13 +63,11 @@ require (
 	cloud.google.com/go/compute/metadata v0.5.2 // indirect
 	cloud.google.com/go/iam v1.2.1 // indirect
 	cloud.google.com/go/storage v1.43.0 // indirect
-	github.com/ProtonMail/go-crypto v1.1.3 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/btubbs/datetime v0.1.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/cloudflare/circl v1.3.8 // indirect
 	github.com/cohere-ai/tokenizer v1.1.1 // indirect
 	github.com/danwakefield/fnmatch v0.0.0-20160403171240-cbb64ac3d964 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
@@ -102,7 +98,6 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/s2a-go v0.1.8 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.4 // indirect
@@ -162,7 +157,6 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/sethvargo/go-retry v0.2.4 // indirect
-	github.com/shurcooL/graphql v0.0.0-20220606043923-3cf50f8a0a29 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stevenle/topsort v0.2.0 // indirect
 	github.com/tkrajina/go-reflector v0.5.6 // indirect
